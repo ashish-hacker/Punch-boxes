@@ -1,4 +1,4 @@
-// Our input frames will come from here.
+/// Our input frames will come from here.
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
@@ -26,14 +26,14 @@ function onResults(results) {
   fpsControl.tick();
 
   // Draw the overlays.
-  canvasCtx.save();
+  //canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
         visibilityMin: 0.65,
-        color: 'green'
+        color: 'white'
       });
   drawLandmarks(
       canvasCtx,
@@ -44,13 +44,67 @@ function onResults(results) {
       canvasCtx,
       Object.values(POSE_LANDMARKS_RIGHT)
           .map(index => results.poseLandmarks[index]),
-      {visibilityMin: 0.65, color: zColor, fillColor: 'rgb(0,0,0)'});
+      {visibilityMin: 0.65, color: zColor, fillColor: 'rgb(0,217,231)'});
   drawLandmarks(
       canvasCtx,
       Object.values(POSE_LANDMARKS_NEUTRAL)
           .map(index => results.poseLandmarks[index]),
       {visibilityMin: 0.65, color: zColor, fillColor: 'white'});
-  canvasCtx.restore();
+  const Ax = results.poseLandmarks[23].x;
+  const Ay = results.poseLandmarks[23].y;
+  const Az = results.poseLandmarks[23].z;
+  const Bx = results.poseLandmarks[25].x;
+  const By = results.poseLandmarks[25].y;
+  const Bz = results.poseLandmarks[25].z;
+  const Cx = results.poseLandmarks[27].x;
+  const Cy = results.poseLandmarks[27].y;
+  const Cz = results.poseLandmarks[27].z;
+  const ABx = Ax - Bx;
+  const ABy = Ay - By;
+  const ABz = Az - Bz;
+  const BCx = Cx - Bx;
+  const BCy = Cy - By;
+  const BCz = Cz - Bz;
+  const dotProduct
+        = ABx * BCx
+          + ABy * BCy
+          + ABz * BCz;
+
+  // Find magnitude of
+  // line AB and BC
+  const magnitudeAB
+        = ABx * ABx
+          + ABy * ABy
+          + ABz * ABz;
+  const magnitudeBC
+        = BCx * BCx
+          + BCy * BCy
+          + BCz * BCz;
+  // Find the cosine of
+  // the angle formed
+  // by line AB and BC
+  var angle = dotProduct;
+  angle /= Math.sqrt(magnitudeAB * magnitudeBC);
+  angle = Math.acos(angle);
+  angle = (angle * 180) / Math.PI;
+  // Print the angle
+  console.log(Math.abs(angle));
+  //canvasCtx.restore();
+  if(angle <= 80) {
+    drawConnectors(
+        canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+          visibilityMin: 0.65,
+          color: 'green'
+        });
+  }
+  else {
+    drawConnectors(
+        canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+          visibilityMin: 0.65,
+          color: 'white'
+        });
+  }
+
 }
 
 const pose = new Pose({locateFile: (file) => {
