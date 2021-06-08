@@ -1,2 +1,2 @@
 ## Squat- counter
-[codepen link](https://codepen.io/GeekyAshish/pen/bGqKgxw?editors=1012)
+[codepen link](https://codepen.io/GeekyAshish/pen/bGqKgxw)
