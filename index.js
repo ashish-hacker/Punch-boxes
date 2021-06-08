@@ -1,9 +1,12 @@
-/// Our input frames will come from here.
+// Our input frames will come from here.
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
 const canvasCtx = canvasElement.getContext('2d');
+let x = canvasElement.width - 185;
 
+let y = 0;
+let count = 0;
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
 const fpsControl = new FPS();
@@ -19,6 +22,7 @@ function zColor(data) {
 }
 
 function onResults(results) {
+
   // Hide the spinner.
   document.body.classList.add('loaded');
 
@@ -26,10 +30,14 @@ function onResults(results) {
   fpsControl.tick();
 
   // Draw the overlays.
-  //canvasCtx.save();
+  canvasCtx.save();
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
+  canvasCtx.fillStyle = 'red';
+  canvasCtx.fillRect(x, y, 100, 100);
+  canvasCtx.font = "50px Arial";
+  canvasCtx.fillText(`Punches : ${count}`, 350, 100);
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
         visibilityMin: 0.65,
@@ -88,7 +96,7 @@ function onResults(results) {
   angle = Math.acos(angle);
   angle = (angle * 180) / Math.PI;
   // Print the angle
-  console.log(Math.abs(angle));
+  //console.log(Math.abs(angle));
   //canvasCtx.restore();
   if(angle <= 80) {
     drawConnectors(
@@ -105,6 +113,24 @@ function onResults(results) {
         });
   }
 
+
+  y += 12;
+  if(y >= canvasElement.height - 150) {
+    y = 0;
+  }
+  //console.log(y);
+  if((results.poseLandmarks[19].x >= (x/canvasElement.width) && results.poseLandmarks[19].x <= (x+100)/canvasElement.width) &&
+    (results.poseLandmarks[19].y >= (y/canvasElement.height) && results.poseLandmarks[19].y <= (y+100)/canvasElement.height)) {
+    y = 0;
+    count += 1;
+  }
+  if((results.poseLandmarks[20].x >= (x/canvasElement.width) && results.poseLandmarks[20].x <= (x+100)/canvasElement.width) &&
+    (results.poseLandmarks[20].y >= (y/canvasElement.height) && results.poseLandmarks[20].y <= (y+100)/canvasElement.height)) {
+    y = 0;
+    count += 1;
+  }
+  console.log(count);
+  canvasCtx.restore();
 }
 
 const pose = new Pose({locateFile: (file) => {
