@@ -36,8 +36,11 @@ function onResults(results) {
       results.image, 0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.fillStyle = 'red';
   canvasCtx.fillRect(x, y, 100, 100);
+  canvasCtx.beginPath();
+  canvasCtx.fillStyle = 'blue';
   canvasCtx.font = "50px Arial";
   canvasCtx.fillText(`Punches : ${count}`, 350, 100);
+  canvasCtx.closePath();
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
         visibilityMin: 0.65,
@@ -119,15 +122,18 @@ function onResults(results) {
     y = 0;
   }
   //console.log(y);
-  if((results.poseLandmarks[19].x >= (x/canvasElement.width) && results.poseLandmarks[19].x <= (x+100)/canvasElement.width) &&
+  if((results.poseLandmarks[19].x >= ((x-50)/canvasElement.width) && results.poseLandmarks[19].x <= (x+100)/canvasElement.width) &&
     (results.poseLandmarks[19].y >= (y/canvasElement.height) && results.poseLandmarks[19].y <= (y+100)/canvasElement.height)) {
-    y = 0;
+    y = -30;
     count += 1;
+
   }
-  if((results.poseLandmarks[20].x >= (x/canvasElement.width) && results.poseLandmarks[20].x <= (x+100)/canvasElement.width) &&
+  if((results.poseLandmarks[20].x >= ((x-50)/canvasElement.width) && results.poseLandmarks[20].x <= (x+100)/canvasElement.width) &&
     (results.poseLandmarks[20].y >= (y/canvasElement.height) && results.poseLandmarks[20].y <= (y+100)/canvasElement.height)) {
-    y = 0;
+    y = -30;
     count += 1;
+
+
   }
   console.log(count);
   canvasCtx.restore();
