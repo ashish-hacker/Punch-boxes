@@ -7,6 +7,11 @@ let x = canvasElement.width - 185;
 
 let y = 0;
 let count = 0;
+let co_ordinates = Array(20).fill({'x':0, 'y':0});
+let co_ordinates1 = Array(20).fill({'x':0, 'y':0});
+let dist = 0;
+let max_dist = 0;
+let prev = 0;
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
 const fpsControl = new FPS();
@@ -20,9 +25,11 @@ spinner.ontransitionend = () => {
 function zColor(data) {
   return 'white';
 }
+function calDistance(a, b) {
+  return Math.sqrt((a.x - b.x)*(a.x - b.x) +  (a.y - b.y)*(a.y - b.y));
+}
 
 function onResults(results) {
-
   // Hide the spinner.
   document.body.classList.add('loaded');
 
@@ -38,8 +45,8 @@ function onResults(results) {
   canvasCtx.fillRect(x, y, 100, 100);
   canvasCtx.beginPath();
   canvasCtx.fillStyle = 'blue';
-  canvasCtx.font = "50px Arial";
-  canvasCtx.fillText(`Punches : ${count}`, 350, 100);
+  canvasCtx.font = "bold 50px Courier";
+  canvasCtx.fillText(`Punches :${count}`, 350, 100);
   canvasCtx.closePath();
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
@@ -122,20 +129,35 @@ function onResults(results) {
     y = 0;
   }
   //console.log(y);
+  co_ordinates.shift();
+  co_ordinates.push({'x':results.poseLandmarks[19].x, 'y':results.poseLandmarks[19].y});
+  co_ordinates1.shift();
+  co_ordinates1.push({'x':results.poseLandmarks[20].x, 'y':results.poseLandmarks[20].y});
+
   if((results.poseLandmarks[19].x >= ((x-50)/canvasElement.width) && results.poseLandmarks[19].x <= (x+100)/canvasElement.width) &&
     (results.poseLandmarks[19].y >= (y/canvasElement.height) && results.poseLandmarks[19].y <= (y+100)/canvasElement.height)) {
-    y = -30;
+    y = -300;
     count += 1;
-
+    dist = calDistance(co_ordinates[19], co_ordinates[0]);
   }
   if((results.poseLandmarks[20].x >= ((x-50)/canvasElement.width) && results.poseLandmarks[20].x <= (x+100)/canvasElement.width) &&
     (results.poseLandmarks[20].y >= (y/canvasElement.height) && results.poseLandmarks[20].y <= (y+100)/canvasElement.height)) {
-    y = -30;
+    y = -300;
     count += 1;
 
-
+    dist = calDistance(co_ordinates1[19], co_ordinates1[0]);
   }
   console.log(count);
+  canvasCtx.beginPath();
+  canvasCtx.fillStyle = 'yellow';
+  canvasCtx.font = "bold 25px Courier";
+  //canvasCtx.fillText(`Current Velocity :${(dist/20).toFixed(3)}`, 700, 100);
+  canvasCtx.fillText(`Previous Velocity :${(prev/20).toFixed(3)}`, 700, 90);
+  canvasCtx.fillText(`Maximum Velocity :${(max_dist/20).toFixed(3)}`, 700, 120);
+  canvasCtx.closePath();
+  max_dist = Math.max(max_dist, dist);
+  if(dist > 0) prev = dist;
+  dist = 0;
   canvasCtx.restore();
 }
 
