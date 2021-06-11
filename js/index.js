@@ -14,7 +14,7 @@ let max_dist = 0;
 let prev = 0;
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
-const fpsControl = new FPS();
+//const fpsControl = new FPS();
 
 // Optimization: Turn off animated spinner after its hiding animation is done.
 const spinner = document.querySelector('.loading');
@@ -189,7 +189,7 @@ new ControlPanel(controlsElement, {
     })
     .add([
       new StaticText({title: 'MediaPipe Pose'}),
-      fpsControl,
+      //fpsControl,
       new Toggle({title: 'Selfie Mode', field: 'selfieMode'}),
       new Slider({
         title: 'Model Complexity',
