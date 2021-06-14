@@ -116,7 +116,7 @@ function onResults(results) {
   //collisions
   for(let i = 0; i < body_parts.length; i++) {
     for(let j = 0; j < 3; j++) {
-      if((body_parts[i].x >= ((left_tiles[j].x-70)/canvasElement.width) && body_parts[i].x <= (left_tiles[j].x+80)/canvasElement.width) &&
+      if((body_parts[i].x >= ((left_tiles[j].x-100)/canvasElement.width) && body_parts[i].x <= (left_tiles[j].x+100)/canvasElement.width) &&
     (body_parts[i].y >= (left_tiles[j].y/canvasElement.height) && body_parts[i].y <= (left_tiles[j].y+150)/canvasElement.height)) {
         left_tiles[j].y = -100;
         count += 1;
@@ -126,7 +126,7 @@ function onResults(results) {
       }
     }
     for(let j = 0; j < 3; j++) {
-      if((body_parts[i].x >= ((right_tiles[j].x-80)/canvasElement.width) && body_parts[i].x <= (right_tiles[j].x+70)/canvasElement.width) &&
+      if((body_parts[i].x >= ((right_tiles[j].x-100)/canvasElement.width) && body_parts[i].x <= (right_tiles[j].x+100)/canvasElement.width) &&
     (body_parts[i].y >= (right_tiles[j].y/canvasElement.height) && body_parts[i].y <= (right_tiles[j].y+150)/canvasElement.height)) {
         right_tiles[j].y = -100;
         count += 1;
