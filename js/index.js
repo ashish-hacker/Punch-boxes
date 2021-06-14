@@ -149,7 +149,7 @@ function onResults(results) {
 }
 
 const pose = new Pose({locateFile: (file) => {
-  return `./node_modules/@mediapipe/pose/${file}`;
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.3.1621277220/${file}`;
 }});
 pose.onResults(onResults);
 
