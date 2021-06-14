@@ -65,11 +65,11 @@ let v = { x: 0,
 const left_tiles = [];
 const right_tiles = [];
 for(let i = 1; i <= 3; i++) {
-  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100, colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
+  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*i, colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
   left_tiles.push(t);
 }
 for(let i = 7; i <= 9; i++) {
-  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100, colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
+  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*(i-6), colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
   right_tiles.push(t);
 }
 
