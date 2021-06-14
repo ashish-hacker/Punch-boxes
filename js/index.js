@@ -2,6 +2,7 @@
 const videoElement = document.getElementsByClassName('input_video')[0];
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const controlsElement = document.getElementsByClassName('control-panel')[0];
+const website = window.location.host;
 const canvasCtx = canvasElement.getContext('2d');
 let x = canvasElement.width - 185;
 
@@ -149,7 +150,8 @@ function onResults(results) {
 }
 
 const pose = new Pose({locateFile: (file) => {
-  return `./node_modules/@mediapipe/pose/${file}`;
+  const website = window.location.host;
+  return `${website}/node_modules/@mediapipe/pose/${file}`;
 }});
 pose.onResults(onResults);
 
