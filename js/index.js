@@ -65,11 +65,11 @@ let v = { x: 0,
 const left_tiles = [];
 const right_tiles = [];
 for(let i = 1; i <= 3; i++) {
-  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*i, colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
+  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*i, colours[Math.floor(Math.random()*colours.length+1)], v, 150, 20);
   left_tiles.push(t);
 }
 for(let i = 7; i <= 9; i++) {
-  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*(i-6), colours[Math.floor(Math.random()*colours.length+1)], v, 150, 10);
+  let t = new tile(canvasElement.width*0.1*i, (Math.floor(Math.random()*50)) - 100*(i-6), colours[Math.floor(Math.random()*colours.length+1)], v, 150, 20);
   right_tiles.push(t);
 }
 
@@ -116,7 +116,7 @@ function onResults(results) {
   //collisions
   for(let i = 0; i < body_parts.length; i++) {
     for(let j = 0; j < 3; j++) {
-      if((body_parts[i].x >= ((left_tiles[j].x-50)/canvasElement.width) && body_parts[i].x <= (left_tiles[j].x+50)/canvasElement.width) &&
+      if((body_parts[i].x >= ((left_tiles[j].x-70)/canvasElement.width) && body_parts[i].x <= (left_tiles[j].x+80)/canvasElement.width) &&
     (body_parts[i].y >= (left_tiles[j].y/canvasElement.height) && body_parts[i].y <= (left_tiles[j].y+150)/canvasElement.height)) {
         left_tiles[j].y = -100;
         count += 1;
@@ -126,7 +126,7 @@ function onResults(results) {
       }
     }
     for(let j = 0; j < 3; j++) {
-      if((body_parts[i].x >= ((right_tiles[j].x-50)/canvasElement.width) && body_parts[i].x <= (right_tiles[j].x+50)/canvasElement.width) &&
+      if((body_parts[i].x >= ((right_tiles[j].x-80)/canvasElement.width) && body_parts[i].x <= (right_tiles[j].x+70)/canvasElement.width) &&
     (body_parts[i].y >= (right_tiles[j].y/canvasElement.height) && body_parts[i].y <= (right_tiles[j].y+150)/canvasElement.height)) {
         right_tiles[j].y = -100;
         count += 1;
